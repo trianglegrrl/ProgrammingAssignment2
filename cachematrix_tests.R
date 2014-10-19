@@ -65,12 +65,14 @@ test.cacheSolve <- function () {
         # Variable to describe whether we got the cache-hit warning() message
         gotCacheHit <- FALSE
 
+        # If cacheSolve() hits the cache, it throws a warning(). Test for that condition.
         tryCatch({
             cacheSolve(computedMatrix)
         }, warning = function(w) {
             gotCacheHit <<- TRUE
         })
 
+        # Compare the results and determine if test succeded
         if(gotCacheHit) {
             message("        - Pulled result from cache")
             TRUE
