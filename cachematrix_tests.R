@@ -27,6 +27,8 @@ test.runTests <- function () {
     if(cacheSolve)
     {
         message("Tests passed!")
+    } else {
+        stop("Tests FAILED! See output above for details.")
     }
 }
 
