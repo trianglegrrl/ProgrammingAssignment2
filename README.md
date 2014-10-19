@@ -1,105 +1,66 @@
-### Introduction
+# cacheMatrix
 
-This second programming assignment will require you to write an R
-function that is able to cache potentially time-consuming computations.
-For example, taking the mean of a numeric vector is typically a fast
-operation. However, for a very long vector, it may take too long to
-compute the mean, especially if it has to be computed repeatedly (e.g.
-in a loop). If the contents of a vector are not changing, it may make
-sense to cache the value of the mean so that when we need it again, it
-can be looked up in the cache rather than recomputed. In this
-Programming Assignment you will take advantage of the scoping rules of
-the R language and how they can be manipulated to preserve state inside
-of an R object.
+## Introduction
 
-### Example: Caching the Mean of a Vector
+This is a solution to Programming Assignment 2 for the Coursera Intruction to
+R Programming.
 
-In this example we introduce the `<<-` operator which can be used to
-assign a value to an object in an environment that is different from the
-current environment. Below are two functions that are used to create a
-special object that stores a numeric vector and caches its mean.
+The assignment explains why this is valuable:
 
-The first function, `makeVector` creates a special "vector", which is
-really a list containing a function to
+> Matrix inversion is usually a costly computation and there may be some
+> benefit to caching the inverse of a matrix rather than computing it
+> repeatedly (there are also alternatives to matrix inversion that we will
+> not discuss here). Your assignment is to write a pair of functions that
+> cache the inverse of a matrix.
 
-1.  set the value of the vector
-2.  get the value of the vector
-3.  set the value of the mean
-4.  get the value of the mean
+This solution uses the (delightful) lexical scoping of R to set up a cached interface to a matrix. The first time you request the inverse of a matrix, its result is calculated and stored in a cache. Any subsequent time the inverse of that matrix is requested, it pulls the result from the cache.
 
-<!-- -->
+## Use (or just read the unit tests)
 
-    makeVector <- function(x = numeric()) {
-            m <- NULL
-            set <- function(y) {
-                    x <<- y
-                    m <<- NULL
-            }
-            get <- function() x
-            setmean <- function(mean) m <<- mean
-            getmean <- function() m
-            list(set = set, get = get,
-                 setmean = setmean,
-                 getmean = getmean)
-    }
+Execute the following code at your R command line:
 
-The following function calculates the mean of the special "vector"
-created with the above function. However, it first checks to see if the
-mean has already been calculated. If so, it `get`s the mean from the
-cache and skips the computation. Otherwise, it calculates the mean of
-the data and sets the value of the mean in the cache via the `setmean`
-function.
+```
+    source('cachematrix.R')
+```
 
-    cachemean <- function(x, ...) {
-            m <- x$getmean()
-            if(!is.null(m)) {
-                    message("getting cached data")
-                    return(m)
-            }
-            data <- x$get()
-            m <- mean(data, ...)
-            x$setmean(m)
-            m
-    }
+Define or load a matrix, e.g.:
 
-### Assignment: Caching the Inverse of a Matrix
+```
+    sourceMatrix = matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2, byrow = TRUE)
+```
 
-Matrix inversion is usually a costly computation and there may be some
-benefit to caching the inverse of a matrix rather than computing it
-repeatedly (there are also alternatives to matrix inversion that we will
-not discuss here). Your assignment is to write a pair of functions that
-cache the inverse of a matrix.
+Create a cache-able matrix and grab it. The first time you run it, it will calculate the inverse matrix. Every subsequent time, it will pull that calculated inverse from a cache rather than re-running it.
+```
+    # Define a cacheable matrix from the given matrix
+    computedMatrix = makeCacheMatrix(sourceMatrix)
 
-Write the following functions:
+    # Get the matrix; this time it will not be pulled from the cache
+    result = cacheSolve(computedMatrix)
 
-1.  `makeCacheMatrix`: This function creates a special "matrix" object
-    that can cache its inverse.
-2.  `cacheSolve`: This function computes the inverse of the special
-    "matrix" returned by `makeCacheMatrix` above. If the inverse has
-    already been calculated (and the matrix has not changed), then
-    `cacheSolve` should retrieve the inverse from the cache.
+    # Get the matrix again; this time it WILL be pulled from the cache so it doesn't have to run again
+    anotherResult = cacheSolve(computedMatrix)
+```
+## Unit tests
 
-Computing the inverse of a square matrix can be done with the `solve`
-function in R. For example, if `X` is a square invertible matrix, then
-`solve(X)` returns its inverse.
+I'm really loving the unit testing for assignments, so I thought it would be fun to write a super basic unit test (from scratch) for this app. The proper thing to do would be to use (RUnit)[http://cran.r-project.org/web/packages/RUnit/index.html], the R unit testing framework.
 
-For this assignment, assume that the matrix supplied is always
-invertible.
+Instead, you can use my dumb test:
 
-In order to complete this assignment, you must do the following:
+```
+     source('cachematrix_tests.R')
+     suppressWarnings(test.runTests())
+```
 
-1.  Fork the GitHub repository containing the stub R files at
-    [https://github.com/rdpeng/ProgrammingAssignment2](https://github.com/rdpeng/ProgrammingAssignment2)
-    to create a copy under your own account.
-2.  Clone your forked GitHub repository to your computer so that you can
-    edit the files locally on your own machine.
-3.  Edit the R file contained in the git repository and place your
-    solution in that file (please do not rename the file).
-4.  Commit your completed R file into YOUR git repository and push your
-    git branch to the GitHub repository under your account.
-5.  Submit to Coursera the URL to your GitHub repository that contains
-    the completed R code for the assignment.
+If the code works, you should see output that looks like this:
 
-### Grading
+```
+    Running tests...
+    cacheSolve()
+        - Returned expected value.
+        - Pulled result from cache
+    Tests passed!
+```
 
-This assignment will be graded via peer assessment.
+Happy caching!
+
+-- Alaina Hardie, @trianglegrrl
