@@ -47,7 +47,7 @@ I'm really loving the unit testing for assignments, so I thought it would be fun
 Instead, you can use my dumb test:
 
 ```
-     source('cachematrix_tests.R')
+     source('examples/cachematrix_tests.R')
      suppressWarnings(test.runTests())
 ```
 

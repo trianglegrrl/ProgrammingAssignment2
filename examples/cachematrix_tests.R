@@ -7,7 +7,7 @@
 ##
 ## To run test suite:
 ##
-##         source('cachematrix_tests.R')
+##         source('examples/cachematrix_tests.R')
 ##         suppressWarnings(test.runTests())
 ##
 ## Expected results defined at https://class.coursera.org/rprog-008/forum/thread?thread_id=174
