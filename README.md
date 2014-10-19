@@ -42,7 +42,7 @@ Create a cache-able matrix and grab it. The first time you run it, it will calcu
 ```
 ## Unit tests
 
-I'm really loving the unit testing for assignments, so I thought it would be fun to write a super basic unit test (from scratch) for this app. The proper thing to do would be to use (RUnit)[http://cran.r-project.org/web/packages/RUnit/index.html], the R unit testing framework.
+I'm really loving the unit testing for assignments, so I thought it would be fun to write a super basic unit test (from scratch) for this app. The proper thing to do would be to use [RUnit](http://cran.r-project.org/web/packages/RUnit/index.html), the R unit testing framework.
 
 Instead, you can use my dumb test:
 
