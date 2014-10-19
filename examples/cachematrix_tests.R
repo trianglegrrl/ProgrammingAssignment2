@@ -1,6 +1,6 @@
 ##
 ## Unit testing for cacheMatrix: Programming Exercise 2 for the Coursera
-## "Introduction to R Programming" course.
+## "R Programming" course.
 ##
 ## Hand-coded remedial unit testing helps me lurn R good and verifies code is working
 ## (Would probably use RUnit for actual testing: `install.packages('RUnit')`)

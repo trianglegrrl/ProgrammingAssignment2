@@ -2,8 +2,7 @@
 
 ## Introduction
 
-This is a solution to Programming Assignment 2 for the Coursera Intruction to
-R Programming.
+This is a solution to Programming Assignment 2 for Coursera R Programming.
 
 The assignment explains why this is valuable:
 

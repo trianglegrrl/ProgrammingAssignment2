@@ -1,5 +1,5 @@
 ##
-## This is Programming Exercise 2 for the Coursera "Introduction to R Programming" course.
+## This is Programming Exercise 2 for the Coursera "R Programming" course.
 ##
 ## Taken together, the functions defined below provide a cached interface to a potentially
 ## computationally intensive task: computing the inverse of a matrix. In this code, we
@@ -9,8 +9,8 @@
 ## inversion caching function if it is not.
 ##
 ##
-## Note: As written, this solution is unable to handle a dataset that changes during its
-## run.
+## Note: As written, this solution is unable to handle a dataset that changes between its
+## calls.
 ##
 ## Alaina Hardie, @trianglegrrl, github.com/trianglegrrl
 ## 2014-10-19
@@ -43,7 +43,7 @@ makeCacheMatrix <- function(sourceMatrix = matrix()) {
     # Return the cached inverse, which null if unset
     getInverse <- function() cache
 
-    # return a list of the results.
+    # Return the available closures
     list(set = set, get = get,
          setInverse = setInverse,
          getInverse = getInverse)
@@ -63,7 +63,7 @@ cacheSolve <- function(requestedMatrix, ...) {
     # version, and then return the cached version, exiting the cacheSolve function.
     if(!is.null(inverseMatrix)) {
         warning("Found a cached result; using that.")
-        invisible(inverseMatrix)
+        return(inverseMatrix)
     }
 
     # A cached version was not found, so compute the inverse of the matrix.
